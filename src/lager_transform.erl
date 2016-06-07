@@ -188,11 +188,11 @@ do_transform(Line, SinkName, Severity, Arguments0, Safety) ->
              end,
     %% Wrap the call to lager:dispatch_log/6 in case that will avoid doing any work if this message is not elegible for logging
     %% See lager.erl (lines 89-100) for lager:dispatch_log/6
-    %% case {whereis(Sink), whereis(?DEFAULT_SINK), lager_config:get({Sink, loglevel}, {?LOG_NONE, []})} of
+    %% case {erlang:whereis(Sink), erlang:whereis(?DEFAULT_SINK), lager_config:get({Sink, loglevel}, {?LOG_NONE, []})} of
     {'case',Line,
          {tuple,Line,
-                [{call,Line,{atom,Line,whereis},[{atom,Line,SinkName}]},
-                 {call,Line,{atom,Line,whereis},[{atom,Line,?DEFAULT_SINK}]}, 
+                [{call,Line,{remote,Line,{atom,Line,erlang},{atom,Line,whereis}},[{atom,Line,SinkName}]},
+                 {call,Line,{remote,Line,{atom,Line,erlang},{atom,Line,whereis}},[{atom,Line,?DEFAULT_SINK}]}, 
                  {call,Line,
                        {remote,Line,{atom,Line,lager_config},{atom,Line,get}},
                        [{tuple,Line,[{atom,Line,SinkName},{atom,Line,loglevel}]},
