@@ -121,7 +121,11 @@ do_log_impl(Severity, Metadata, Format, Args, SeverityAsInt, LevelThreshold, Tra
                 _ ->
                     Format
             end,
-            LagerMsg = lager_msg:new(Msg,
+            Msg2 = case Msg of
+              _ when is_list(Msg) -> Msg;
+              _ -> io_lib:format("~p",[Msg])
+            end,
+            LagerMsg = lager_msg:new(Msg2,
                 Severity, Metadata, Destinations),
             case lager_config:get({Sink, async}, false) of
                 true ->
